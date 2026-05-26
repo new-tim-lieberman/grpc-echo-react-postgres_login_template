@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package auth;
+
+//TODO: move to enviornment variable
+option go_package = "github.com/new-timlieberman/gitasy2.0/proto/auth";
+
+service AuthService {
+  rpc Register(RegisterRequest)
+      returns (AuthResponse);
+
+  rpc Login(LoginRequest)
+      returns (AuthResponse);
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  int64 user_id = 1;
+  string access_token = 2;
+}

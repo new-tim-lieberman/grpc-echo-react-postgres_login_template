@@ -1,0 +1,30 @@
+services:
+
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: fantasy
+      POSTGRES_PASSWORD: fantasy
+      POSTGRES_DB: fantasy
+    ports:
+      - "5432:5432"
+
+  auth:
+    build:
+      context: .
+      dockerfile: auth/Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://fantasy:fantasy@postgres:5432/fantasy?sslmode=disable
+    ports:
+      - "50051:50051"
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    depends_on:
+      - auth
+    ports:
+      - "8080:8080"
