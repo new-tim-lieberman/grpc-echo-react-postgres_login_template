@@ -9,8 +9,8 @@ RUN go mod download
 COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build \
-    -o auth-service \
-    ./auth/cmd/auth
+    -o user-service \
+    ./user/cmd/user
 
 # Runtime Stage
 FROM alpine:latest
@@ -19,8 +19,8 @@ RUN apk add --no-cache ca-certificates
 
 WORKDIR /root
 
-COPY --from=builder /app/auth-service .
+COPY --from=builder /app/user-service .
 
 EXPOSE 50052
 
-CMD ["./auth-service"]
+CMD ["./user-service"]

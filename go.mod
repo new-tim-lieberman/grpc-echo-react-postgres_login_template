@@ -4,6 +4,7 @@ go 1.26.3
 
 require (
 	github.com/labstack/echo/v4 v4.15.2
+	github.com/lib/pq v1.12.3
 	google.golang.org/grpc v1.81.1
 	google.golang.org/protobuf v1.36.11
 )

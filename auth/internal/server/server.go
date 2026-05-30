@@ -10,12 +10,14 @@ import (
 
 type Server struct {
 	authpb.UnimplementedAuthServiceServer
-	userClient userpb.UnimplementedUserServiceServer
 	queries    *db.Queries
+	userClient userpb.UserServiceClient
 }
 
-func New() *Server {
-	return &Server{}
+func New(userClient userpb.UserServiceClient) *Server {
+	return &Server{
+		userClient: userClient,
+	}
 }
 
 func (s *Server) Register(

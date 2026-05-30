@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"log"
 
 	"github.com/new-timlieberman/gitasy2.0/internal/db"
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
@@ -12,8 +13,10 @@ type Server struct {
 	queries *db.Queries
 }
 
-func New() *Server {
-	return &Server{}
+func New(queries *db.Queries) *Server {
+	return &Server{
+		queries: queries,
+	}
 }
 
 func (s *Server) GetUser(
@@ -30,6 +33,7 @@ func (s *Server) CreateUser(
 	ctx context.Context,
 	req *userpb.CreateUserRequest,
 ) (*userpb.UserResponse, error) {
+	log.Println("CreateUser called")
 	user, err := s.queries.CreateUser(ctx, db.CreateUserParams{
 		Email: req.Email,
 	})

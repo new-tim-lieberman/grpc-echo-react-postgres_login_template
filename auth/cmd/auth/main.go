@@ -6,7 +6,9 @@ import (
 
 	auth "github.com/new-timlieberman/gitasy2.0/auth/internal/server"
 	pb "github.com/new-timlieberman/gitasy2.0/proto/auth"
+	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
@@ -18,11 +20,23 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 
-	authServer := auth.New()
+	conn, err := grpc.NewClient(
+		"user:50052",
+		grpc.WithTransportCredentials(
+			insecure.NewCredentials(),
+		),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	userClient := userpb.NewUserServiceClient(conn)
+
+	authServer := auth.New(userClient)
 
 	pb.RegisterAuthServiceServer(grpcServer, authServer)
 
-	log.Println("user service running on :50051")
+	log.Println("auth service running on :50051")
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
