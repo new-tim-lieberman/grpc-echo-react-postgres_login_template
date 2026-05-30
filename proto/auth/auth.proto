@@ -22,6 +22,7 @@ message RegisterResponse {
   int32 id = 1;
   string token = 3;
   string message = 4;
+  string refresh_token = 5;
 }
 
 message LoginRequest {

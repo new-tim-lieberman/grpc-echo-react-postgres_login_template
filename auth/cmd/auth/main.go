@@ -7,6 +7,7 @@ import (
 	auth "github.com/new-timlieberman/gitasy2.0/auth/internal/server"
 	pb "github.com/new-timlieberman/gitasy2.0/proto/auth"
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
+	"github.com/redis/go-redis/v9"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -32,7 +33,15 @@ func main() {
 
 	userClient := userpb.NewUserServiceClient(conn)
 
-	authServer := auth.New(userClient)
+	rdb := redis.NewClient(&redis.Options{
+		Addr: "redis:6379",
+	})
+
+	authServer := auth.New(
+		userClient,
+		rdb,
+		"super-secret",
+	)
 
 	pb.RegisterAuthServiceServer(grpcServer, authServer)
 
