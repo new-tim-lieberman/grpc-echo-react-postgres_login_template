@@ -4,23 +4,23 @@ import (
 	"log"
 	"net"
 
-	auth "github.com/new-timlieberman/gitasy2.0/auth/internal/server"
-	pb "github.com/new-timlieberman/gitasy2.0/proto/auth"
+	pb "github.com/new-timlieberman/gitasy2.0/proto/user"
+	user "github.com/new-timlieberman/gitasy2.0/user/internal/server"
 	"google.golang.org/grpc"
 )
 
 func main() {
 	//TODO: create enviornemt variable.
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", ":50052")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
 
-	authServer := auth.New()
+	userServer := user.New()
 
-	pb.RegisterAuthServiceServer(grpcServer, authServer)
+	pb.RegisterUserServiceServer(grpcServer, userServer)
 
 	log.Println("user service running on :50051")
 

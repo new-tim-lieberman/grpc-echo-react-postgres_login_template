@@ -2,10 +2,11 @@ services:
 
   postgres:
     image: postgres:17
+
     environment:
-      POSTGRES_USER: fantasy
-      POSTGRES_PASSWORD: fantasy
-      POSTGRES_DB: fantasy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gitasy
     ports:
       - "5432:5432"
 
@@ -20,6 +21,18 @@ services:
     ports:
       - "50051:50051"
 
+  user:
+    build:
+      context: .
+      dockerfile: user/Dockerfile
+    depends_on:
+      - migrate
+      - postgres
+    environment:
+      DATABASE_URL: postgres://fantasy:fantasy@postgres:5432/fantasy?sslmode=disable
+    ports:
+      - "50052:50052"
+
   api:
     build:
       context: .
@@ -28,3 +41,17 @@ services:
       - auth
     ports:
       - "8080:8080"
+
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - ./db/migrations:/migrations
+    command:
+      [
+        "-path", "/migrations",
+        "-database", "postgres://postgres:postgres@postgres:5432/gitasy?sslmode=disable",
+        "up"
+      ]
+    depends_on:
+      - postgres
+

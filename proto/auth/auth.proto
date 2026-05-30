@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package auth;
+package auth.v1;
 
 //TODO: move to enviornment variable
 option go_package = "github.com/new-timlieberman/gitasy2.0/proto/auth";

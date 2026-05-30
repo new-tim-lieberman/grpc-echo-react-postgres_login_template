@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "github.com/new-timlieberman/gitasy2.0/proto/user";
+service UserService {
+  rpc CreateUser(CreateUserRequest)
+      returns (UserResponse);
+
+  rpc GetUser(GetUserRequest)
+      returns (UserResponse);
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string username = 2;
+  string phone = 3;
+  string password_hash = 4;
+}
+
+message UserResponse {
+  int32 id = 1;
+  string email = 2;
+  string username = 3;
+  string phone = 4;
+}
+
+message GetUserRequest {
+  int32 id = 1;
+}
