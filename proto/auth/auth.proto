@@ -7,7 +7,7 @@ option go_package = "github.com/new-timlieberman/gitasy2.0/proto/auth";
 
 service AuthService {
   rpc Register(RegisterRequest)
-      returns (AuthResponse);
+      returns (RegisterResponse);
 
   rpc Login(LoginRequest)
       returns (AuthResponse);
@@ -16,6 +16,12 @@ service AuthService {
 message RegisterRequest {
   string email = 1;
   string password = 2;
+}
+
+message RegisterResponse {
+  int32 id = 1;
+  string token = 3;
+  string message = 4;
 }
 
 message LoginRequest {

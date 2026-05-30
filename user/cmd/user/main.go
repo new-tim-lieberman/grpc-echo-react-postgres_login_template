@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/new-timlieberman/gitasy2.0/proto/user"
+	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
 	user "github.com/new-timlieberman/gitasy2.0/user/internal/server"
 	"google.golang.org/grpc"
 )
@@ -17,12 +17,16 @@ func main() {
 	}
 
 	grpcServer := grpc.NewServer()
-
 	userServer := user.New()
 
-	pb.RegisterUserServiceServer(grpcServer, userServer)
+	userpb.RegisterUserServiceServer(
+		grpcServer,
+		userServer,
+	)
 
-	log.Println("user service running on :50051")
+	userpb.RegisterUserServiceServer(grpcServer, userServer)
+
+	log.Println("user service running on :50052")
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

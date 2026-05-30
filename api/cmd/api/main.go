@@ -4,6 +4,7 @@ import (
 	"log"
 
 	echo "github.com/labstack/echo/v4"
+	"github.com/new-timlieberman/gitasy2.0/api/internal/routes"
 	authpb "github.com/new-timlieberman/gitasy2.0/proto/auth"
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
 	"google.golang.org/grpc"
@@ -36,14 +37,11 @@ func main() {
 	authClient := authpb.NewAuthServiceClient(authConn)
 	userClient := userpb.NewUserServiceClient(userConn)
 
-	_ = authClient
-	_ = userClient
-
 	// -----------------------------
 	// Echo server
 	// -----------------------------
 	e := echo.New()
-
+	routes.RegisterRoutes(e, authClient, userClient)
 	// Health check
 	e.GET("/health", func(c echo.Context) error {
 		return c.JSON(200, map[string]string{

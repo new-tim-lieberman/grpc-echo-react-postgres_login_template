@@ -1,16 +1,41 @@
 package server
 
 import (
+	"context"
+
 	"github.com/new-timlieberman/gitasy2.0/internal/db"
-	pb "github.com/new-timlieberman/gitasy2.0/proto/auth"
+	authpb "github.com/new-timlieberman/gitasy2.0/proto/auth"
+	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
 )
 
 type Server struct {
-	pb.UnimplementedAuthServiceServer
-
-	queries *db.Queries
+	authpb.UnimplementedAuthServiceServer
+	userClient userpb.UnimplementedUserServiceServer
+	queries    *db.Queries
 }
 
 func New() *Server {
 	return &Server{}
+}
+
+func (s *Server) Register(
+	ctx context.Context,
+	req *authpb.RegisterRequest,
+) (*authpb.RegisterResponse, error) {
+
+	_, err := s.userClient.CreateUser(
+		ctx,
+		&userpb.CreateUserRequest{
+			Email:        req.Email,
+			PasswordHash: req.Password,
+		},
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &authpb.RegisterResponse{
+		Message: "registered",
+	}, nil
 }

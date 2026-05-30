@@ -9,22 +9,20 @@ service UserService {
 
   rpc GetUser(GetUserRequest)
       returns (UserResponse);
+
 }
 
 message CreateUserRequest {
   string email = 1;
-  string username = 2;
-  string phone = 3;
-  string password_hash = 4;
+  string password_hash = 2;
 }
 
 message UserResponse {
   int32 id = 1;
   string email = 2;
-  string username = 3;
-  string phone = 4;
 }
 
 message GetUserRequest {
   int32 id = 1;
+  string email = 2;
 }
