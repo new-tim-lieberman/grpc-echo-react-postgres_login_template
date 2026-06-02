@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -48,7 +49,8 @@ func (s *Server) Register(
 	if err != nil {
 		return nil, err
 	}
-
+	fmt.Println("hashedPassword:", string(hashedPassword))
+	fmt.Println(string(hashedPassword))
 	userResponse, err := s.userClient.CreateUser(
 		ctx,
 		&userpb.CreateUserRequest{
@@ -86,6 +88,9 @@ func (s *Server) Login(
 			Email: req.Email,
 		},
 	)
+
+	fmt.Println("user:", user)
+
 	if err != nil {
 		return nil, err
 	}
@@ -158,4 +163,44 @@ func (s *Server) createTokens(
 	}
 
 	return accessToken, refreshToken, nil
+}
+
+func (s *Server) RefreshToken(
+	ctx context.Context,
+	req *authpb.RefreshTokenRequest,
+) (*authpb.AuthResponse, error) {
+
+	userID, err := s.rdb.Get(
+		ctx,
+		req.RefreshToken,
+	).Result()
+
+	if err != nil {
+		return nil, status.Error(
+			codes.Unauthenticated,
+			"invalid refresh token",
+		)
+	}
+
+	token := jwt.NewWithClaims(
+		jwt.SigningMethodHS256,
+		jwt.MapClaims{
+			"user_id": userID,
+			"exp": time.Now().
+				Add(time.Minute * 15).
+				Unix(),
+		},
+	)
+
+	tokenString, err := token.SignedString(
+		[]byte(s.jwtSecret),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &authpb.AuthResponse{
+		Message: "token refreshed",
+		Token:   tokenString,
+	}, nil
 }

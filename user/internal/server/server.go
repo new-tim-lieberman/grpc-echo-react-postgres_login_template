@@ -30,8 +30,9 @@ func (s *Server) GetUserByEmail(
 	}
 
 	return &userpb.UserResponse{
-		Id:    int32(user.ID),
-		Email: user.Email,
+		Id:           int32(user.ID),
+		Email:        user.Email,
+		PasswordHash: user.PasswordHash,
 	}, nil
 
 }
@@ -52,7 +53,8 @@ func (s *Server) CreateUser(
 ) (*userpb.UserResponse, error) {
 	log.Println("CreateUser called")
 	user, err := s.queries.CreateUser(ctx, db.CreateUserParams{
-		Email: req.Email,
+		Email:        req.Email,
+		PasswordHash: req.PasswordHash,
 	})
 
 	if err != nil {

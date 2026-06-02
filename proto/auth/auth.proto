@@ -38,4 +38,10 @@ message LoginResponse {
 message AuthResponse {
   int64 user_id = 1;
   string access_token = 2;
+  string message = 3;
+  string token = 4;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
 }
