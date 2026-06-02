@@ -40,7 +40,7 @@ func main() {
 	authServer := auth.New(
 		userClient,
 		rdb,
-		"super-secret",
+		"secret",
 	)
 
 	pb.RegisterAuthServiceServer(grpcServer, authServer)

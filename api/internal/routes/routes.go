@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
+	"github.com/new-timlieberman/gitasy2.0/api/internal/middleware"
 
 	authpb "github.com/new-timlieberman/gitasy2.0/proto/auth"
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
@@ -24,5 +25,7 @@ func RegisterRoutes(
 	api.POST("/login", authHandler.Login)
 	api.POST("/register", authHandler.Register)
 
-	api.GET("/users/:id", userHandler.GetUser)
+	protected := api.Group("")
+	protected.Use(middleware.JWTMiddleware)
+	protected.GET("/users/:id", userHandler.GetUser)
 }

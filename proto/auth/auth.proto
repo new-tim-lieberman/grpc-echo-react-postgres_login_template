@@ -10,7 +10,7 @@ service AuthService {
       returns (RegisterResponse);
 
   rpc Login(LoginRequest)
-      returns (AuthResponse);
+      returns (LoginResponse);
 }
 
 message RegisterRequest {
@@ -28,6 +28,11 @@ message RegisterResponse {
 message LoginRequest {
   string email = 1;
   string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  string refresh_token = 2;
 }
 
 message AuthResponse {

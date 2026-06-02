@@ -77,6 +77,7 @@ type UserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
+	PasswordHash  string                 `protobuf:"bytes,3,opt,name=password_hash,json=passwordHash,proto3" json:"password_hash,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -121,6 +122,13 @@ func (x *UserResponse) GetId() int32 {
 func (x *UserResponse) GetEmail() string {
 	if x != nil {
 		return x.Email
+	}
+	return ""
+}
+
+func (x *UserResponse) GetPasswordHash() string {
+	if x != nil {
+		return x.PasswordHash
 	}
 	return ""
 }
@@ -177,6 +185,50 @@ func (x *GetUserRequest) GetEmail() string {
 	return ""
 }
 
+type GetUserByEmailRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetUserByEmailRequest) Reset() {
+	*x = GetUserByEmailRequest{}
+	mi := &file_user_user_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetUserByEmailRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUserByEmailRequest) ProtoMessage() {}
+
+func (x *GetUserByEmailRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_user_user_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUserByEmailRequest.ProtoReflect.Descriptor instead.
+func (*GetUserByEmailRequest) Descriptor() ([]byte, []int) {
+	return file_user_user_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetUserByEmailRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
 var File_user_user_proto protoreflect.FileDescriptor
 
 const file_user_user_proto_rawDesc = "" +
@@ -184,17 +236,21 @@ const file_user_user_proto_rawDesc = "" +
 	"\x0fuser/user.proto\x12\auser.v1\"N\n" +
 	"\x11CreateUserRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12#\n" +
-	"\rpassword_hash\x18\x02 \x01(\tR\fpasswordHash\"4\n" +
+	"\rpassword_hash\x18\x02 \x01(\tR\fpasswordHash\"Y\n" +
 	"\fUserResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\"6\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\x12#\n" +
+	"\rpassword_hash\x18\x03 \x01(\tR\fpasswordHash\"6\n" +
 	"\x0eGetUserRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email2\x89\x01\n" +
+	"\x05email\x18\x02 \x01(\tR\x05email\"-\n" +
+	"\x15GetUserByEmailRequest\x12\x14\n" +
+	"\x05email\x18\x01 \x01(\tR\x05email2\xd2\x01\n" +
 	"\vUserService\x12?\n" +
 	"\n" +
 	"CreateUser\x12\x1a.user.v1.CreateUserRequest\x1a\x15.user.v1.UserResponse\x129\n" +
-	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x15.user.v1.UserResponseB2Z0github.com/new-timlieberman/gitasy2.0/proto/userb\x06proto3"
+	"\aGetUser\x12\x17.user.v1.GetUserRequest\x1a\x15.user.v1.UserResponse\x12G\n" +
+	"\x0eGetUserByEmail\x12\x1e.user.v1.GetUserByEmailRequest\x1a\x15.user.v1.UserResponseB2Z0github.com/new-timlieberman/gitasy2.0/proto/userb\x06proto3"
 
 var (
 	file_user_user_proto_rawDescOnce sync.Once
@@ -208,19 +264,22 @@ func file_user_user_proto_rawDescGZIP() []byte {
 	return file_user_user_proto_rawDescData
 }
 
-var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_user_user_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_user_user_proto_goTypes = []any{
-	(*CreateUserRequest)(nil), // 0: user.v1.CreateUserRequest
-	(*UserResponse)(nil),      // 1: user.v1.UserResponse
-	(*GetUserRequest)(nil),    // 2: user.v1.GetUserRequest
+	(*CreateUserRequest)(nil),     // 0: user.v1.CreateUserRequest
+	(*UserResponse)(nil),          // 1: user.v1.UserResponse
+	(*GetUserRequest)(nil),        // 2: user.v1.GetUserRequest
+	(*GetUserByEmailRequest)(nil), // 3: user.v1.GetUserByEmailRequest
 }
 var file_user_user_proto_depIdxs = []int32{
 	0, // 0: user.v1.UserService.CreateUser:input_type -> user.v1.CreateUserRequest
 	2, // 1: user.v1.UserService.GetUser:input_type -> user.v1.GetUserRequest
-	1, // 2: user.v1.UserService.CreateUser:output_type -> user.v1.UserResponse
-	1, // 3: user.v1.UserService.GetUser:output_type -> user.v1.UserResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	3, // 2: user.v1.UserService.GetUserByEmail:input_type -> user.v1.GetUserByEmailRequest
+	1, // 3: user.v1.UserService.CreateUser:output_type -> user.v1.UserResponse
+	1, // 4: user.v1.UserService.GetUser:output_type -> user.v1.UserResponse
+	1, // 5: user.v1.UserService.GetUserByEmail:output_type -> user.v1.UserResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -237,7 +296,7 @@ func file_user_user_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_user_user_proto_rawDesc), len(file_user_user_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

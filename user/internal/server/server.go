@@ -19,6 +19,23 @@ func New(queries *db.Queries) *Server {
 	}
 }
 
+func (s *Server) GetUserByEmail(
+	ctx context.Context,
+	req *userpb.GetUserByEmailRequest) (*userpb.UserResponse, error) {
+
+	user, err := s.queries.GetUserByEmail(ctx, req.Email)
+	if err != nil {
+		log.Printf("GetUserByEmail: %v", err)
+		return nil, err
+	}
+
+	return &userpb.UserResponse{
+		Id:    int32(user.ID),
+		Email: user.Email,
+	}, nil
+
+}
+
 func (s *Server) GetUser(
 	ctx context.Context,
 	req *userpb.GetUserRequest,
