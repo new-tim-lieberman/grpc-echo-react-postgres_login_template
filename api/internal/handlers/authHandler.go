@@ -78,3 +78,41 @@ func (h *AuthHandler) Register(c echo.Context) error {
 
 	return c.JSON(201, resp)
 }
+
+type RefreshRequest struct {
+	RefreshToken string `json:"refresh_token"`
+}
+
+func (h *AuthHandler) Refresh(
+	c echo.Context,
+) error {
+
+	var req RefreshRequest
+
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(
+			http.StatusBadRequest,
+			map[string]string{
+				"error": "invalid request",
+			},
+		)
+	}
+
+	resp, err := h.client.RefreshToken(
+		c.Request().Context(),
+		&authpb.RefreshTokenRequest{
+			RefreshToken: req.RefreshToken,
+		},
+	)
+
+	if err != nil {
+		return c.JSON(
+			http.StatusUnauthorized,
+			map[string]string{
+				"error": err.Error(),
+			},
+		)
+	}
+
+	return c.JSON(http.StatusOK, resp)
+}

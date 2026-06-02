@@ -5,6 +5,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -182,10 +183,19 @@ func (s *Server) RefreshToken(
 		)
 	}
 
+	id, err := strconv.ParseInt(
+		userID,
+		10,
+		32,
+	)
+	if err != nil {
+		return nil, err
+	}
+
 	token := jwt.NewWithClaims(
 		jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"user_id": userID,
+			"user_id": int32(id),
 			"exp": time.Now().
 				Add(time.Minute * 15).
 				Unix(),

@@ -24,6 +24,7 @@ func RegisterRoutes(
 
 	api.POST("/login", authHandler.Login)
 	api.POST("/register", authHandler.Register)
+	api.POST("/refresh", authHandler.Refresh)
 
 	protected := api.Group("")
 	protected.Use(middleware.JWTMiddleware)

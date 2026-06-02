@@ -11,6 +11,9 @@ service AuthService {
 
   rpc Login(LoginRequest)
       returns (LoginResponse);
+
+  rpc RefreshToken(RefreshTokenRequest)
+      returns (AuthResponse);
 }
 
 message RegisterRequest {

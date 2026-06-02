@@ -382,10 +382,11 @@ const file_auth_auth_proto_rawDesc = "" +
 	"\amessage\x18\x03 \x01(\tR\amessage\x12\x14\n" +
 	"\x05token\x18\x04 \x01(\tR\x05token\":\n" +
 	"\x13RefreshTokenRequest\x12#\n" +
-	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken2\x86\x01\n" +
+	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken2\xcb\x01\n" +
 	"\vAuthService\x12?\n" +
 	"\bRegister\x12\x18.auth.v1.RegisterRequest\x1a\x19.auth.v1.RegisterResponse\x126\n" +
-	"\x05Login\x12\x15.auth.v1.LoginRequest\x1a\x16.auth.v1.LoginResponseB2Z0github.com/new-timlieberman/gitasy2.0/proto/authb\x06proto3"
+	"\x05Login\x12\x15.auth.v1.LoginRequest\x1a\x16.auth.v1.LoginResponse\x12C\n" +
+	"\fRefreshToken\x12\x1c.auth.v1.RefreshTokenRequest\x1a\x15.auth.v1.AuthResponseB2Z0github.com/new-timlieberman/gitasy2.0/proto/authb\x06proto3"
 
 var (
 	file_auth_auth_proto_rawDescOnce sync.Once
@@ -411,10 +412,12 @@ var file_auth_auth_proto_goTypes = []any{
 var file_auth_auth_proto_depIdxs = []int32{
 	0, // 0: auth.v1.AuthService.Register:input_type -> auth.v1.RegisterRequest
 	2, // 1: auth.v1.AuthService.Login:input_type -> auth.v1.LoginRequest
-	1, // 2: auth.v1.AuthService.Register:output_type -> auth.v1.RegisterResponse
-	3, // 3: auth.v1.AuthService.Login:output_type -> auth.v1.LoginResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	5, // 2: auth.v1.AuthService.RefreshToken:input_type -> auth.v1.RefreshTokenRequest
+	1, // 3: auth.v1.AuthService.Register:output_type -> auth.v1.RegisterResponse
+	3, // 4: auth.v1.AuthService.Login:output_type -> auth.v1.LoginResponse
+	4, // 5: auth.v1.AuthService.RefreshToken:output_type -> auth.v1.AuthResponse
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
