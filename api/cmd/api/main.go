@@ -4,6 +4,7 @@ import (
 	"log"
 
 	echo "github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/new-timlieberman/gitasy2.0/api/internal/routes"
 	authpb "github.com/new-timlieberman/gitasy2.0/proto/auth"
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
@@ -41,6 +42,28 @@ func main() {
 	// Echo server
 	// -----------------------------
 	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{
+			"http://localhost:3000",  // web dev (if you have one)
+			"http://localhost:19006", // Expo web
+			"http://10.0.2.2:8080",   // Android emulator -> localhost
+		},
+		AllowMethods: []string{
+			echo.GET,
+			echo.POST,
+			echo.PUT,
+			echo.DELETE,
+			echo.OPTIONS,
+		},
+		AllowHeaders: []string{
+			echo.HeaderOrigin,
+			echo.HeaderContentType,
+			echo.HeaderAccept,
+			echo.HeaderAuthorization,
+		},
+	}))
+
 	routes.RegisterRoutes(e, authClient, userClient)
 	// Health check
 	e.GET("/health", func(c echo.Context) error {

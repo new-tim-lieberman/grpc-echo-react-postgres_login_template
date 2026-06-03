@@ -1,2 +1,46 @@
 .idea/
 vendor
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+mobile/node_modules/
+
+# Expo / React Native
+mobile/.expo/
+mobile/.expo-shared/
+mobile/expo-env.d.ts
+
+# builds
+mobile/android/
+mobile/ios/
+mobile/build/
+
+# logs
+mobile/npm-debug.log*
+mobile/yarn-debug.log*
+mobile/yarn-error.log*
+mobile/pnpm-debug.log*
+
+# metro
+mobile/.metro-cache/
+
+# TypeScript
+mobile/*.tsbuildinfo
+
+# environment variables
+mobile/.env
+mobile/.env.*
+
+# OS files
+mobile/.DS_Store
+mobile/.idea/
+mobile/.vscode/
+
+# testing
+mobile/coverage/
+
+# fastlane (if ever used)
+mobile/fastlane/report.xml
+mobile/fastlane/Preview.html
+mobile/fastlane/screenshots
+mobile/fastlane/test_output
