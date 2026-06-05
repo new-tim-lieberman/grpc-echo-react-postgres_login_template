@@ -11,6 +11,7 @@ Usage.
 Backend:
 * `make proto`
 * `docker-compose up --build`
+* `go test ./...`
 
 Add user:
 ```
@@ -19,6 +20,7 @@ curl -X POST http://localhost:8080/api/register \
   -d '{
     "email": "test@example.com","password":"password" }'
 ```
+
 
 
 React Native:
