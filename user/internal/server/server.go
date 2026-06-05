@@ -8,12 +8,21 @@ import (
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
 )
 
-type Server struct {
-	userpb.UnimplementedUserServiceServer
-	queries *db.Queries
+type Querier interface {
+	GetUserByEmail(ctx context.Context, email string) (db.User, error)
+
+	CreateUser(
+		ctx context.Context,
+		arg db.CreateUserParams,
+	) (db.User, error)
 }
 
-func New(queries *db.Queries) *Server {
+type Server struct {
+	userpb.UnimplementedUserServiceServer
+	queries Querier
+}
+
+func New(queries Querier) *Server {
 	return &Server{
 		queries: queries,
 	}
@@ -21,7 +30,8 @@ func New(queries *db.Queries) *Server {
 
 func (s *Server) GetUserByEmail(
 	ctx context.Context,
-	req *userpb.GetUserByEmailRequest) (*userpb.UserResponse, error) {
+	req *userpb.GetUserByEmailRequest,
+) (*userpb.UserResponse, error) {
 
 	user, err := s.queries.GetUserByEmail(ctx, req.Email)
 	if err != nil {
@@ -34,28 +44,20 @@ func (s *Server) GetUserByEmail(
 		Email:        user.Email,
 		PasswordHash: user.PasswordHash,
 	}, nil
-
-}
-
-func (s *Server) GetUser(
-	ctx context.Context,
-	req *userpb.GetUserRequest,
-) (*userpb.UserResponse, error) {
-
-	return &userpb.UserResponse{
-		Id: req.Id,
-	}, nil
 }
 
 func (s *Server) CreateUser(
 	ctx context.Context,
 	req *userpb.CreateUserRequest,
 ) (*userpb.UserResponse, error) {
-	log.Println("CreateUser called")
-	user, err := s.queries.CreateUser(ctx, db.CreateUserParams{
-		Email:        req.Email,
-		PasswordHash: req.PasswordHash,
-	})
+
+	user, err := s.queries.CreateUser(
+		ctx,
+		db.CreateUserParams{
+			Email:        req.Email,
+			PasswordHash: req.PasswordHash,
+		},
+	)
 
 	if err != nil {
 		return nil, err

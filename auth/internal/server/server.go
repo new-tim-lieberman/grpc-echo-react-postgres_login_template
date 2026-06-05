@@ -9,26 +9,26 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/new-timlieberman/gitasy2.0/internal/db"
 	authpb "github.com/new-timlieberman/gitasy2.0/proto/auth"
 	userpb "github.com/new-timlieberman/gitasy2.0/proto/user"
 	"github.com/redis/go-redis/v9"
 	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type Server struct {
 	authpb.UnimplementedAuthServiceServer
-	queries    *db.Queries
-	userClient userpb.UserServiceClient
-	rdb        *redis.Client
+
+	userClient UserClient
+	rdb        RedisClient
 	jwtSecret  string
 }
 
 func New(
-	userClient userpb.UserServiceClient,
-	rdb *redis.Client,
+	userClient UserClient,
+	rdb RedisClient,
 	jwtSecret string,
 ) *Server {
 	return &Server{
@@ -36,6 +36,34 @@ func New(
 		rdb:        rdb,
 		jwtSecret:  jwtSecret,
 	}
+}
+
+type UserClient interface {
+	CreateUser(
+		ctx context.Context,
+		in *userpb.CreateUserRequest,
+		opts ...grpc.CallOption,
+	) (*userpb.UserResponse, error)
+
+	GetUserByEmail(
+		ctx context.Context,
+		in *userpb.GetUserByEmailRequest,
+		opts ...grpc.CallOption,
+	) (*userpb.UserResponse, error)
+}
+
+type RedisClient interface {
+	Set(
+		ctx context.Context,
+		key string,
+		value interface{},
+		expiration time.Duration,
+	) *redis.StatusCmd
+
+	Get(
+		ctx context.Context,
+		key string,
+	) *redis.StringCmd
 }
 
 func (s *Server) Register(
