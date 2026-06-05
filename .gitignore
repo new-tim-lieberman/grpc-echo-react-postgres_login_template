@@ -3,44 +3,44 @@ vendor
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
-mobile/node_modules/
+mobile2/node_modules/
 
 # Expo / React Native
-mobile/.expo/
-mobile/.expo-shared/
-mobile/expo-env.d.ts
+mobile2/.expo/
+mobile2/.expo-shared/
+mobile2/expo-env.d.ts
 
 # builds
-mobile/android/
-mobile/ios/
-mobile/build/
+mobile2/android/
+mobile2/ios/
+mobile2/build/
 
 # logs
-mobile/npm-debug.log*
-mobile/yarn-debug.log*
-mobile/yarn-error.log*
-mobile/pnpm-debug.log*
+mobile2/npm-debug.log*
+mobile2/yarn-debug.log*
+mobile2/yarn-error.log*
+mobile2/pnpm-debug.log*
 
 # metro
-mobile/.metro-cache/
+mobile2/.metro-cache/
 
 # TypeScript
 mobile/*.tsbuildinfo
 
 # environment variables
-mobile/.env
-mobile/.env.*
+mobile2/.env
+mobile2/.env.*
 
 # OS files
-mobile/.DS_Store
-mobile/.idea/
-mobile/.vscode/
+mobile2/.DS_Store
+mobile2/.idea/
+mobile2/.vscode/
 
 # testing
-mobile/coverage/
+mobile2/coverage/
 
 # fastlane (if ever used)
-mobile/fastlane/report.xml
-mobile/fastlane/Preview.html
-mobile/fastlane/screenshots
-mobile/fastlane/test_output
+mobile2/fastlane/report.xml
+mobile2/fastlane/Preview.html
+mobile2/fastlane/screenshots
+mobile2/fastlane/test_output
