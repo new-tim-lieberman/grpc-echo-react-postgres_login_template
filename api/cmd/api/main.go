@@ -47,7 +47,8 @@ func main() {
 		AllowOrigins: []string{
 			"http://localhost:3000",  // web dev (if you have one)
 			"http://localhost:19006", // Expo web
-			"http://10.0.2.2:8080",   // Android emulator -> localhost
+			"http://10.0.2.2:8080",
+			"*", // Android emulator -> localhost
 		},
 		AllowMethods: []string{
 			echo.GET,
